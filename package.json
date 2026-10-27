@@ -1,0 +1,24 @@
+{
+  "name": "krusty-live",
+  "version": "1.0.0",
+  "description": "AI-powered Krusty Krab TikTok LIVE simulator",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test tests/unit.test.mjs",
+    "e2e": "node tests/e2e.mjs",
+    "app": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "three": "^0.186.1",
+    "tiktok-live-connector": "^2.5.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "electron": "^38.8.6"
+  }
+}

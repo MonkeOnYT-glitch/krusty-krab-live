@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Krusty Krab Overlay</title>
+<link rel="stylesheet" href="/overlay.css">
+<script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="frame">
+  <canvas id="c"></canvas>
+  <div id="hud">
+    <div id="ticker"><div class="track" id="ticker-track"></div></div>
+    <div id="goal" class="hidden"><div class="fill" id="goal-fill"></div><div class="txt"><span id="goal-label">GOAL</span><b id="goal-num">0 / 1000 🪙</b></div></div>
+    <div id="crown" class="hidden">👑 <span>Employee of the Month</span><b id="crown-name"></b></div>
+    <div id="topbar">
+      <div class="title"><span class="anchor">⚓</span> KRUSTY KRAB <small>HIRING OFFICE</small></div>
+      <div id="badge" class="badge">…</div>
+    </div>
+    <div id="queue" class="panel"><h3>HIRING LINE</h3><ol></ol><div class="empty">No applicants yet — type in chat to apply!</div></div>
+    <div id="streaks"></div>
+    <div id="banners"></div>
+    <div id="groove" class="hidden">🕺 SpongeBob is grooving!</div>
+    <div id="card" class="hidden">
+      <div class="card-head"><span id="card-phase">REVIEWING</span><span id="card-src"></span></div>
+      <div class="card-name" id="card-name"></div>
+      <div class="card-role" id="card-role"></div>
+      <div class="card-detail" id="card-detail"></div>
+      <div id="card-stamp" class="stamp hidden"></div>
+    </div>
+    <div id="subtitle" class="hidden"><b id="sub-who"></b><span id="sub-text"></span></div>
+    <div id="countdown" class="hidden"></div>
+    <div id="cine" class="hidden"></div>
+    <div id="tl" class="hidden"><div class="tl-rec">⏩ TIMELAPSE ×500</div><div id="tl-day">DAY 1</div><div class="tl-sub">Rebuilding the Krusty Krab, brick by brick</div></div>
+    <div id="grain"></div>
+    <div id="flash"></div><div id="fade"></div><div id="wipe"></div><div id="vignette"></div>
+    <div id="loading"><div class="spin">🦀</div><div id="load-text">Opening the Krusty Krab…</div></div>
+    <div id="hint" class="hidden">Click once to enable sound</div>
+  </div>
+</div>
+<script type="module" src="/js/overlay.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Krusty Krab Control</title>
+<link rel="stylesheet" href="/control.css">
+</head>
+<body>
+<aside id="nav">
+  <div class="brand">🦀 <b>Krusty Krab</b><small>LIVE Control Panel</small></div>
+  <button data-tab="dashboard" class="active">📊 Live Dashboard</button>
+  <button data-tab="gifts">🎁 Gift Library</button>
+  <button data-tab="editor">🛠 Reaction Editor</button>
+  <button data-tab="hiring">📋 Hiring Office</button>
+  <button data-tab="scene">🎬 Characters &amp; Scene</button>
+  <button data-tab="overlay">📺 Stream Overlay</button>
+  <button data-tab="settings">⚙ Settings</button>
+  <div id="conn" class="conn">connecting…</div>
+</aside>
+<main>
+  <header id="statusbar"></header>
+  <section id="tab-dashboard" class="tab active"></section>
+  <section id="tab-gifts" class="tab"></section>
+  <section id="tab-editor" class="tab"></section>
+  <section id="tab-hiring" class="tab"></section>
+  <section id="tab-scene" class="tab"></section>
+  <section id="tab-overlay" class="tab"></section>
+  <section id="tab-settings" class="tab"></section>
+</main>
+<div id="toasts"></div>
+<script type="module" src="/js/control.js"></script>
+</body>
+</html>

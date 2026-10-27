@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# personal / runtime data: API keys, TikTok username, viewer names, payroll, logs, gift catalog
+data/
+cache/
+
+# 3D models: fan-made Sketchfab assets (download them yourself, see README) and large source files
+assets/
+public/models/*.glb
+
+# user music (bring your own, see public/music/README.txt)
+public/music/*
+!public/music/README.txt
+
+# local shortcuts contain absolute paths
+*.lnk
+.claude/
+__pycache__/
