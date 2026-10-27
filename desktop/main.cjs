@@ -17,6 +17,17 @@ if (!app.requestSingleInstanceLock()) app.quit();
 
 let server = null, main = null, stream = null;
 
+// Packaged builds are read-only, so settings, keys, voice cache, 3D models and music live in the
+// user's own folder (%APPDATA%/krusty-live). Running from source keeps using the project folders.
+const USER = app.getPath('userData');
+const FOLDERS = { data: path.join(USER, 'data'), cache: path.join(USER, 'cache', 'tts'), models: path.join(USER, 'models'), music: path.join(USER, 'music') };
+function userDirsEnv() {
+  if (!app.isPackaged) return {};
+  for (const d of Object.values(FOLDERS)) require('node:fs').mkdirSync(d, { recursive: true });
+  return { KK_DATA_DIR: FOLDERS.data, KK_CACHE_DIR: FOLDERS.cache, KK_MODELS_DIR: FOLDERS.models, KK_MUSIC_DIR: FOLDERS.music };
+}
+const modelsFolder = () => (app.isPackaged ? FOLDERS.models : path.join(ROOT, 'public', 'models'));
+
 const ping = () => new Promise((res) => {
   const r = http.get(URL, (x) => { x.resume(); res(x.statusCode === 200); });
   r.on('error', () => res(false)); r.setTimeout(1500, () => { r.destroy(); res(false); });
@@ -25,7 +36,7 @@ const ping = () => new Promise((res) => {
 async function ensureServer() {
   if (await ping()) return; // already running (e.g. started from a terminal)
   server = spawn(process.execPath, [path.join(ROOT, 'server', 'index.js')], {
-    cwd: ROOT, env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }, windowsHide: true, stdio: 'ignore',
+    cwd: app.isPackaged ? USER : ROOT, env: { ...process.env, ...userDirsEnv(), ELECTRON_RUN_AS_NODE: '1' }, windowsHide: true, stdio: 'ignore',
   });
   server.on('exit', (code) => { server = null; if (!app.isQuitting) dialog.showErrorBox('Krusty Krab LIVE', `The server stopped (code ${code}). Check data/app.log.`); });
   for (let i = 0; i < 40; i++) { if (await ping()) return; await new Promise(r => setTimeout(r, 250)); }
@@ -64,7 +75,9 @@ function buildMenu() {
     { label: 'App', submenu: [
       { label: 'Open stream window', accelerator: 'Ctrl+O', click: openStream },
       { label: 'Copy OBS overlay URL', click: () => clipboard.writeText(URL + 'overlay.html') },
-      { label: 'Open logs folder', click: () => shell.openPath(path.join(ROOT, 'data')) },
+      { label: 'Open 3D models folder', click: () => { require('node:fs').mkdirSync(modelsFolder(), { recursive: true }); shell.openPath(modelsFolder()); } },
+      { label: 'Open music folder', click: () => shell.openPath(app.isPackaged ? FOLDERS.music : path.join(ROOT, 'public', 'music')) },
+      { label: 'Open settings & logs folder', click: () => shell.openPath(app.isPackaged ? FOLDERS.data : path.join(ROOT, 'data')) },
       { type: 'separator' },
       { role: 'reload' }, { role: 'toggleDevTools' },
       { type: 'separator' },
@@ -85,6 +98,12 @@ app.whenReady().then(async () => {
   main.once('ready-to-show', () => main.show());
   try {
     await ensureServer();
+    if (app.isPackaged && !require('node:fs').existsSync(path.join(FOLDERS.models, 'krusty_krab.glb'))) {
+      const r = await dialog.showMessageBox({ type: 'info', title: 'Krusty Krab LIVE', buttons: ['Open models folder', 'Later'],
+        message: "The 3D models aren't installed yet.",
+        detail: 'Put krusty_krab.glb, mr_krabs.glb, spongebob.glb and squidward.glb into the models folder (see the README for where to get them), then restart the app. Everything else works without them.' });
+      if (r.response === 0) shell.openPath(FOLDERS.models);
+    }
     main.loadURL(URL); // the Stream window (App menu, Ctrl+O) is opt-in so it never competes with your TikTok link
   } catch (e) {
     dialog.showErrorBox('Krusty Krab LIVE', e.message);

@@ -14,7 +14,20 @@ local **GPT-OSS** (Ollama) reads applications and decides, and TikTok gifts driv
 
 Requirements: Windows, Node 24+, [Ollama](https://ollama.com) with a local model (`gemma4` recommended for speed, `gpt-oss:20b` also supported), Blender 4.2+ (only to convert the models).
 
-## Setup
+## Download the app (Windows)
+Grab `KrustyKrabLIVE-<version>-portable.exe` from the [Releases](../../releases) page and double-click it (no install).
+Windows SmartScreen may warn because the exe isn't code-signed: click **More info → Run anyway**.
+
+You still need:
+1. **[Ollama](https://ollama.com)** running with a model: `ollama pull gemma4` (then pick it in Settings → GPT-OSS → Model).
+2. **The 3D models** in the app's models folder (App menu → *Open 3D models folder*, see "Getting the 3D models" below).
+3. In the app: **Settings → TikTok LIVE** → your TikTok username + a free Euler Stream API key, **Save settings**. Then go live on TikTok and click **🔴 LIVE Mode → 🔌 Connect**.
+   Voices: Settings → Voice → Fish Audio key (optional; Windows voices work without one).
+
+Your settings, keys and cache are stored in `%APPDATA%krusty-live` on your own PC.
+OBS / TikTok LIVE Studio link: `http://localhost:7777/overlay.html` (1080×1920).
+
+## Setup (from source)
 ```
 npm install
 ```

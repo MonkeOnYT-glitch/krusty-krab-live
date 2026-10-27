@@ -7,7 +7,8 @@
     "start": "node server/index.js",
     "test": "node --test tests/unit.test.mjs",
     "e2e": "node tests/e2e.mjs",
-    "app": "electron ."
+    "app": "electron .",
+    "dist": "electron-builder --win portable"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,30 @@
     "ws": "^8.22.0"
   },
   "devDependencies": {
-    "electron": "^38.8.6"
+    "electron": "^38.8.6",
+    "electron-builder": "^26.18.0"
+  },
+  "productName": "Krusty Krab LIVE",
+  "build": {
+    "appId": "live.krustykrab.app",
+    "productName": "Krusty Krab LIVE",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "desktop/**",
+      "server/**",
+      "public/**",
+      "!public/models/*.glb",
+      "!public/music/*.{mp3,ogg,m4a,wav}",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "desktop/icon.ico"
+    },
+    "portable": {
+      "artifactName": "KrustyKrabLIVE-${version}-portable.exe"
+    }
   }
 }

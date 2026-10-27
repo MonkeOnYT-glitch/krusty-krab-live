@@ -8,7 +8,7 @@ import { execFile } from 'node:child_process';
 import { settings, getSecret, ROOT } from './settings.js';
 import { state, log, changed, scene } from './hub.js';
 
-export const TTS_DIR = path.join(ROOT, 'cache', 'tts');
+export const TTS_DIR = process.env.KK_CACHE_DIR || path.join(ROOT, 'cache', 'tts');
 fs.mkdirSync(TTS_DIR, { recursive: true });
 
 const queue = [];

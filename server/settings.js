@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { defaultMappings } from './defaults.js';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const DATA_DIR = path.join(ROOT, 'data');
+export const DATA_DIR = process.env.KK_DATA_DIR || path.join(ROOT, 'data');
 const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 const SECRETS_FILE = path.join(DATA_DIR, 'secrets.json');
 const PRESETS_FILE = path.join(DATA_DIR, 'presets.json');

@@ -131,9 +131,12 @@ const handlers = {
 
 // --- HTTP static ------------------------------------------------------------------------------
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.glb': 'model/gltf-binary', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.wasm': 'application/wasm' };
+const MUSIC_DIR = process.env.KK_MUSIC_DIR || path.join(ROOT, 'public', 'music');
 const MOUNTS = [
   ['/vendor/three/', path.join(ROOT, 'node_modules', 'three')],
   ['/tts/', TTS_DIR],
+  ...(process.env.KK_MODELS_DIR ? [['/models/', process.env.KK_MODELS_DIR]] : []),
+  ['/music/', MUSIC_DIR],
   ['/', path.join(ROOT, 'public')],
 ];
 const server = http.createServer((req, res) => {
@@ -141,7 +144,7 @@ const server = http.createServer((req, res) => {
   if (url === '/') url = '/control.html';
   if (url === '/api/music') {
     let files = [];
-    try { files = fs.readdirSync(path.join(ROOT, 'public', 'music')).filter(f => /\.(mp3|ogg|m4a|wav)$/i.test(f)); } catch { /* no folder */ }
+    try { files = fs.readdirSync(MUSIC_DIR).filter(f => /\.(mp3|ogg|m4a|wav)$/i.test(f)); } catch { /* no folder */ }
     res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); res.end(JSON.stringify({ files })); return;
   }
   const liveTts = url.match(/^\/tts-live\/([\w-]+)\.mp3$/);
